@@ -27,3 +27,4 @@ lib/bundledOutputs
 src/*.js
 node_modules
 .DS_Store
+.bsb.lock
