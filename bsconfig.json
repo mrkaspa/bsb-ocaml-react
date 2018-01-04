@@ -8,7 +8,7 @@
     "module": "commonjs",
     "in-source": true
   },
-  "bs-dependencies": ["reason-react"],
+  "bs-dependencies": ["reason-react", "bs-director"],
   "bsc-flags": ["-bs-super-errors"],
   "ppx-flags": ["./node_modules/ppx_bsx/bin/ppx_bsx.exe"]
 }

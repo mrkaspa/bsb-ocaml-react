@@ -4,7 +4,7 @@ let make ~name _children =
   { component with
     render=
       (fun _self ->
-        [%bsx "
+         [%bsx "
           <div>
             <h1>
               "(ReasonReact.stringToElement name)"

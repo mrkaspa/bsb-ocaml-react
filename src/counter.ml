@@ -1,26 +1,44 @@
-type 'a action = NewFile of 'a
+type file = <name : string; path : string> Js.t
 
-type state = {count: int; click: int; dummy: bool}
+type action = NewFile of file list
+
+type state = {current: file option; log: string option}
 
 let component = ReasonReact.reducerComponent "Counter"
 
+let get_files e =
+  let tg =
+    e
+    |> ReactEventRe.Form.target
+    |> ReactDOMRe.domElementToObj in
+  tg##files
+
+let prt_log log_opt =
+  match log_opt with
+  | Some log ->
+    [%bsx "
+      <div>
+        "(ReasonReact.stringToElement log)"
+      </div>"]
+  | None -> [%bsx "<br/>"]
+
 let make _children =
   { component with
-    initialState= (fun () -> {count= 0; click= 0; dummy= false})
+    initialState= (fun () -> {current=None; log=None})
   ; reducer=
-      (fun action state ->
-        match action with
-        | NewFile e ->
-          let nat = ReactEventRe.Form.nativeEvent e in
-          Cli.cli ();
-          ReasonReact.Update
-            {state with count= state.count - 1; click= state.click + 1})
+      (fun (NewFile files) _state ->
+         let file = List.hd files in
+         let current = Some (List.hd files) in
+         Js.log current;
+         let log = Cli.run file##path in
+         ReasonReact.Update {current=current; log=(Some log)})
   ; render=
       (fun self ->
-        [%bsx "
+         [%bsx "
           <div>
-            <input type='file' onChange="(self.reduce (fun e -> NewFile e))">
+            <input type='file' onChange="(self.reduce (fun e -> NewFile (get_files e)))">
             </input>
+            "(prt_log self.state.log)"
           </div>
         "]) }
 
