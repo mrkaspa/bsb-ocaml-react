@@ -18,19 +18,18 @@ let make _children =
               {state with count= state.count + 1; click= state.click + 1})
   ; render=
       (fun self ->
-        ReactDOMRe.createElement "div"
-          [| ReactDOMRe.createElement "button"
-               ~props:
-                 (ReactDOMRe.props
-                    ~onClick:(self.reduce (fun _event -> Sub))
-                    ())
-               [|ReasonReact.stringToElement "-"|]
-          ; ReasonReact.stringToElement
-              ("Clicks = " ^ string_of_int self.state.click)
-          ; ReasonReact.stringToElement
-              (" || Counter = " ^ string_of_int self.state.count)
-          ; ReactDOMRe.createElement "button"
-              ~props:
-                (ReactDOMRe.props ~onClick:(self.reduce (fun _event -> Add)) ())
-              [|ReasonReact.stringToElement "+"|] |]) }
+        [%bsx "
+          <div>
+            <button onClick="(self.reduce (fun _event -> Sub))">
+              "(ReasonReact.stringToElement "--")"
+            </button>
+            "(ReasonReact.stringToElement
+              ("Clicks = " ^ string_of_int self.state.click))"
+            "(ReasonReact.stringToElement
+              (" || Counter = " ^ string_of_int self.state.count))"
+            <button onClick="(self.reduce (fun _event -> Add))">
+              "(ReasonReact.stringToElement "++")"
+            </button>
+          </div>
+        "]) }
 
