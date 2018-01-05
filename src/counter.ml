@@ -6,23 +6,25 @@ type state = {current: file option; log: string option}
 
 let component = ReasonReact.reducerComponent "Counter"
 
-let get_files e =
-  let tg =
-    e
-    |> ReactEventRe.Form.target
-    |> ReactDOMRe.domElementToObj in
-  tg##files
-
-let prt_log log_opt =
-  match log_opt with
-  | Some log ->
-    [%bsx "
-      <div>
-        "(ReasonReact.stringToElement log)"
-      </div>"]
-  | None -> [%bsx "<br/>"]
-
 let make _children =
+  let get_files e =
+    let tg =
+      e
+      |> ReactEventRe.Form.target
+      |> ReactDOMRe.domElementToObj in
+    tg##files
+  in
+
+  let prt_log log_opt =
+    match log_opt with
+    | Some log ->
+      [%bsx "
+        <div>
+          "(ReasonReact.stringToElement log)"
+        </div>"]
+    | None -> [%bsx "<br/>"]
+  in
+
   { component with
     initialState= (fun () -> {current=None; log=None})
   ; reducer=
