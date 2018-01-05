@@ -11,7 +11,8 @@ let make _children =
     let tg =
       e
       |> ReactEventRe.Form.target
-      |> ReactDOMRe.domElementToObj in
+      |> ReactDOMRe.domElementToObj
+    in
     tg##files
   in
 
