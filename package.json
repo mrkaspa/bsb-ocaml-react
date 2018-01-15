@@ -1,7 +1,7 @@
 {
   "name": "ocamlnode",
   "version": "0.1.0",
-  "main": "src/main.js",
+  "main": "main.js",
   "scripts": {
     "clean": "bsb -clean-world",
     "build": "bsb -make-world",
